@@ -8,9 +8,33 @@
   </head>
   <body>
     <h1>Tic-Tac-Toe</h1>
+    <div class="settings-container" id="settings-container">
+      <div class="players-container" id="players-container">
+        <button class="btn-player-ct" id="btn-one-player">One Player</button>
+        <button class="btn-player-ct" id="btn-two-player">Two Players</button>
+      </div>
+      <div class="player-names-container" id="player-names-container">
+        <div class="player-container" id="player-one-container">
+          <label for="player-one-name" class="player-name-lbl"
+            >Player One Name:</label
+          >
+          <input type="text" name="player-one-name" id="player-one-name" />
+        </div>
+        <div class="player-container" id="player-two-container">
+          <label for="player-two-name" class="player-name-label"
+            >Player Two Name:</label
+          >
+          <input type="text" name="player-two-name" id="player-two-name" />
+        </div>
+        <button class="btn-submit-names" id="btn-submit-names">Submit</button>
+      </div>
+    </div>
     <div class="status" id="status"></div>
     <div class="game-board-container" id="game-board-container"></div>
-    <button class="reset" id="reset">Reset</button>
+    <div class="start-over" id="start-over">
+      <button class="new-game" id="new-game">New Game</button>
+      <button class="reset" id="reset">Reset</button>
+    </div>
   </body>
   <script src="ttt.js"></script>
 </html>
