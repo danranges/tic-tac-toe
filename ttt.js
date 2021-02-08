@@ -7,12 +7,14 @@ let turn = 0
 let gameSetup = (function() {
     const onePlayer = document.getElementById('btn-one-player')
     const twoPlayer = document.getElementById('btn-two-player')
-    const playerOneName = document.getElementById('player-one-name')
-    const playerTwoName = document.getElementById('player-two-name')
+    const form = document.getElementById('player-names-form')
+    const playerOneName = form.elements[0]
+    const playerTwoName = form.elements[1]
     const playerTwoContainer = document.getElementById('player-two-container')
     const btnSubmit = document.getElementById('btn-submit-names')
     const playerNamesContainer = document.getElementById('player-names-container')
     const playerCountContainer = document.getElementById('players-container')
+    const playerNames = []
     
     onePlayer.addEventListener('click', onePlayerGame)
     twoPlayer.addEventListener('click', twoPlayerGame)
@@ -37,13 +39,39 @@ let gameSetup = (function() {
     }
 
     function submitNames() {
-        // TODO
+        if ((playerCount === 1 && playerOneName.value) ||
+            (playerCount === 2 && playerOneName.value && playerTwoName.value)) {
+                playerNames.push(playerOneName.value)
+                playerNames.push(playerTwoName.value)
+            }
+        }
+
+    function finalResult(result) {
+        console.log({result})
+        switch (result) {
+            case 0:
+                gameBoard.status.textContent = 'It\'s a draw'
+                break
+            case 1:
+                gameBoard.status.textContent = `${playerNames[0]} wins!`
+                break
+            case 2:
+                gameBoard.status.textContent = `${playerNames[1]} wins!`
+                break
+            case 3:
+                gameBoard.status.textContent = `The computer wins!`
+                break
+        }
+    }
+
+    return {
+        finalResult
     }
 
 })()
 
 let gameBoard  = (function() {
-    board = []
+    let board = []
     let gameOver = false
     
     const container = document.getElementById('game-board-container')
@@ -89,13 +117,17 @@ let gameBoard  = (function() {
             }
 
         if (gameOver) {
+            console.log(marker)
             if (tie) {
-                status.textContent = 'It\'s a draw'
+                gameSetup.finalResult(0)
             } else {
                 if (marker === 'X') {
-                    status.textContent = 'Player One wins!'
+                    gameSetup.finalResult(1)
+                } else if (marker === 'O' && playerCount === 2 ) {
+                    gameSetup.finalResult(2)
                 } else {
-                    status.textContent = 'Player Two wins!'
+                    gameSetup.finalResult(3)
+                    
                 }
             }
         }
@@ -103,6 +135,7 @@ let gameBoard  = (function() {
     
     function _newGame() {
         board = []
+        turn = 0
         gameOver = false
         tie = false
         _destroy()
@@ -110,6 +143,7 @@ let gameBoard  = (function() {
     }
 
     function _addMove(space, marker) {
+        console.log(marker)
         if (!board[space]) {
             board[space] = marker
             _destroy()
@@ -117,8 +151,9 @@ let gameBoard  = (function() {
             _winCheck(marker)
         }
     }
-    
+
     function playerMove(i) {
+
         if (turn === 0) {
             _addMove(i, 'X')
         } else {
@@ -137,7 +172,8 @@ let gameBoard  = (function() {
 
     return {
         playerMove,
-        reset
+        reset,
+        status
     }
 })()
 
