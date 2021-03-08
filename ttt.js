@@ -1,8 +1,5 @@
-
-let playerCount
+let playerCount = 0
 let turn = 0
-
-
 
 let gameSetup = (function() {
     const onePlayer = document.getElementById('btn-one-player')
@@ -14,11 +11,14 @@ let gameSetup = (function() {
     const btnSubmit = document.getElementById('btn-submit-names')
     const playerNamesContainer = document.getElementById('player-names-container')
     const playerCountContainer = document.getElementById('players-container')
-    const playerNames = []
+    const btnReset = document.getElementById('reset')
+    const restartContainer = document.getElementById('start-over')
+    let playerNames = []
     
     onePlayer.addEventListener('click', onePlayerGame)
     twoPlayer.addEventListener('click', twoPlayerGame)
     btnSubmit.addEventListener('click', submitNames)
+    btnReset.addEventListener('click', _reset)
 
     function onePlayerGame() {
         playerCount = 1
@@ -28,26 +28,32 @@ let gameSetup = (function() {
         playerCount = 2
         chooseNames()
     }
-
+    
     function chooseNames() {
         playerCountContainer.style.visibility = 'hidden'
         playerNamesContainer.style.visibility = 'visible'
-
+        
         if (playerCount === 1) {
             playerTwoContainer.style.visibility = 'hidden'
         }
+        
+        playerOneName.focus()
     }
-
+    
     function submitNames() {
         if ((playerCount === 1 && playerOneName.value) ||
-            (playerCount === 2 && playerOneName.value && playerTwoName.value)) {
-                playerNames.push(playerOneName.value)
-                playerNames.push(playerTwoName.value)
-            }
+        (playerCount === 2 && playerOneName.value && playerTwoName.value)) {
+            playerNames.push(playerOneName.value)
+            playerNames.push(playerTwoName.value)
+            playerNamesContainer.style.visibility = 'hidden'
+            gameBoard.status.innerHTML = `${gameSetup.playerNames[0]}'s turn`
+            gameBoard.container.style.visibility = 'visible'
+            restartContainer.style.visibility = 'visible'
+            
         }
+    }
 
     function finalResult(result) {
-        console.log({result})
         switch (result) {
             case 0:
                 gameBoard.status.textContent = 'It\'s a draw'
@@ -64,8 +70,23 @@ let gameSetup = (function() {
         }
     }
 
+    function _reset() {
+        gameBoard.newGame()
+        playerCountContainer.style.visibility = 'visible'
+        playerNamesContainer.style.visibility = 'hidden'
+        playerNames = []
+        playerOneName.value = ''
+        playerTwoName.value = ''
+        gameBoard.status.innerHTML = ''
+        gameBoard.container.style.visibility = 'hidden'
+        restartContainer.style.visibility = 'hidden'
+
+    }
+
     return {
-        finalResult
+        finalResult,
+        playerNames,
+        playerCount
     }
 
 })()
@@ -76,9 +97,9 @@ let gameBoard  = (function() {
     
     const container = document.getElementById('game-board-container')
     const status = document.getElementById('status')
-    const btnReset = document.getElementById('new-game')
+    const btnNewGame = document.getElementById('new-game')
 
-    btnReset.addEventListener('click', _newGame)
+    btnNewGame.addEventListener('click', newGame)
 
     _render()
 
@@ -130,20 +151,32 @@ let gameBoard  = (function() {
                     
                 }
             }
+        } else {
+            _turnStatus()
+        }
+    }
+
+    function _turnStatus() {
+        if (turn === 0) {
+            status.innerHTML = `${gameSetup.playerNames[1]}'s turn`
+        } else {
+            status.innerHTML = `${gameSetup.playerNames[0]}'s turn`
+
         }
     }
     
-    function _newGame() {
+    function newGame() {
         board = []
         turn = 0
         gameOver = false
         tie = false
         _destroy()
         _render()
+        status.innerHTML = `${gameSetup.playerNames[0]}'s turn`
     }
 
     function _addMove(space, marker) {
-        console.log(marker)
+        console.log(playerCount)
         if (!board[space]) {
             board[space] = marker
             _destroy()
@@ -159,11 +192,12 @@ let gameBoard  = (function() {
         } else {
             _addMove(i, 'O')
         }
-    
+        
         if (!turn && !gameOver) {
             turn = 1
             if (playerCount === 1) {
-               setTimeout(() => {computer.simMove(board)}, 500)
+                status.innerHTML = 'Thinking...'
+                setTimeout(() => {computer.simMove(board)}, 500)
             }
         } else {
             turn = 0
@@ -172,8 +206,9 @@ let gameBoard  = (function() {
 
     return {
         playerMove,
-        reset,
-        status
+        status,
+        newGame,
+        container
     }
 })()
 
