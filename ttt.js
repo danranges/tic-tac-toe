@@ -51,6 +51,7 @@ let gameSetup = (function() {
             playerNames.push(playerOneName.value)
             playerNames.push(playerTwoName.value)
             playerNamesContainer.style.visibility = 'hidden'
+            playerTwoContainer.style.visibility = 'hidden'
             gameBoard.status.innerHTML = `${gameSetup.playerNames[0]}'s turn`
             gameBoard.container.style.visibility = 'visible'
             restartContainer.style.visibility = 'visible'
@@ -79,6 +80,7 @@ let gameSetup = (function() {
         gameBoard.newGame()
         playerCountContainer.style.visibility = 'visible'
         playerNamesContainer.style.visibility = 'hidden'
+        playerTwoContainer.style.visibility = 'hidden'
         playerNames = []
         playerOneName.value = ''
         playerTwoName.value = ''

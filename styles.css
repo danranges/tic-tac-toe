@@ -24,10 +24,12 @@ h1 {
   justify-content: center;
   position: absolute;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 20%);
 }
 
-.btn-player-ct {
+.btn-player-ct,
+.btn-submit-names,
+.restart {
   width: 100px;
 }
 
@@ -35,8 +37,14 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 10%);
   visibility: hidden;
+}
+
+.player-container {
+  padding-bottom: 4px;
 }
 
 .status {
@@ -62,8 +70,4 @@ h1 {
   display: flex;
   visibility: hidden;
   justify-content: center;
-}
-
-.restart {
-  width: 100px;
 }
