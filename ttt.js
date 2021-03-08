@@ -35,6 +35,9 @@ let gameSetup = (function() {
         
         if (playerCount === 1) {
             playerTwoContainer.style.visibility = 'hidden'
+        } else {
+            playerTwoContainer.style.visibility = 'visible'
+
         }
         
         playerOneName.focus()
@@ -77,6 +80,7 @@ let gameSetup = (function() {
         playerNames = []
         playerOneName.value = ''
         playerTwoName.value = ''
+        playerCount = ''
         gameBoard.status.innerHTML = ''
         gameBoard.container.style.visibility = 'hidden'
         restartContainer.style.visibility = 'hidden'
