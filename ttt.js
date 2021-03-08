@@ -9,6 +9,7 @@ let gameSetup = (function() {
     const playerTwoName = form.elements[1]
     const playerTwoContainer = document.getElementById('player-two-container')
     const btnSubmit = document.getElementById('btn-submit-names')
+    const btnBack = document.getElementById('btn-back')
     const playerNamesContainer = document.getElementById('player-names-container')
     const playerCountContainer = document.getElementById('players-container')
     const btnReset = document.getElementById('reset')
@@ -18,6 +19,7 @@ let gameSetup = (function() {
     onePlayer.addEventListener('click', onePlayerGame)
     twoPlayer.addEventListener('click', twoPlayerGame)
     btnSubmit.addEventListener('click', submitNames)
+    btnBack.addEventListener('click', _reset)
     btnReset.addEventListener('click', _reset)
 
     function onePlayerGame() {

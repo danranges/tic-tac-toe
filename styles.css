@@ -22,12 +22,20 @@ h1 {
 .players-container {
   display: flex;
   justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn-player-ct {
+  width: 100px;
 }
 
 .player-names-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   visibility: hidden;
 }
 
