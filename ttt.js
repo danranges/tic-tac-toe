@@ -52,10 +52,9 @@ let gameSetup = (function() {
             playerNames.push(playerTwoName.value)
             playerNamesContainer.style.visibility = 'hidden'
             playerTwoContainer.style.visibility = 'hidden'
-            gameBoard.status.innerHTML = `${gameSetup.playerNames[0]}'s turn`
+            gameBoard.status.innerHTML = `${playerNames[0]}'s turn`
             gameBoard.container.style.visibility = 'visible'
             restartContainer.style.visibility = 'visible'
-            
         }
     }
 
@@ -77,18 +76,17 @@ let gameSetup = (function() {
     }
 
     function _reset() {
-        gameBoard.newGame()
-        playerCountContainer.style.visibility = 'visible'
-        playerNamesContainer.style.visibility = 'hidden'
-        playerTwoContainer.style.visibility = 'hidden'
         playerNames = []
         playerOneName.value = ''
         playerTwoName.value = ''
         playerCount = ''
+        gameBoard.newGame()
+        playerCountContainer.style.visibility = 'visible'
+        playerNamesContainer.style.visibility = 'hidden'
+        playerTwoContainer.style.visibility = 'hidden'
         gameBoard.status.innerHTML = ''
         gameBoard.container.style.visibility = 'hidden'
         restartContainer.style.visibility = 'hidden'
-
     }
 
     return {
@@ -165,11 +163,12 @@ let gameBoard  = (function() {
     }
 
     function _turnStatus() {
+        let playerNames = gameSetup.playerNames
+        console.log(gameSetup.playerNames)
         if (turn === 0) {
-            status.innerHTML = `${gameSetup.playerNames[1]}'s turn`
+            status.innerHTML = `${playerNames[1]}'s turn`
         } else {
-            status.innerHTML = `${gameSetup.playerNames[0]}'s turn`
-
+            status.innerHTML = `${playerNames[0]}'s turn`
         }
     }
     
